@@ -2,15 +2,20 @@ import { validationResult } from "express-validator";
 import { Appointment } from "../models/Appointment.js";
 import { sendAppointmentConfirmationEmail } from "../utils/email_sender.js";
 import { formatData } from "../utils/formatData.js";
+import { getPricesByModelIdAndServices } from "./PriceController.js";
 
 export const createAppointment = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array()[0].msg });
   }
+  const totalPrice = await getPricesByModelIdAndServices({
+    modelId: req.body.modelSelect,
+    selectedServices: req.body.services,
+  });
 
   try {
-    const appointment = await Appointment.create(req.body);
+    const appointment = await Appointment.create({ ...req.body, totalPrice });
     if (!appointment) {
       throw new Error("Failed to create appointment");
     }
@@ -40,7 +45,7 @@ export const createAppointment = async (req, res) => {
     sendAppointmentConfirmationEmail(customerEmail, otherDetails);
 
     return res.status(201).json({
-      appointmentDetails,
+      appointment,
       message: "Appointment created successfully.",
     });
   } catch (error) {

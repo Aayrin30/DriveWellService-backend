@@ -17,7 +17,7 @@ export const updateUser = async (req, res) => {
 
     if (updatedRowsCount === 1) {
       const updatedUser = await User.findByPk(id);
-      return res.status(200).json(updatedUser);
+      return res.status(200).json({updatedUser,message:"User has been Updated"});
     } else {
       return res.status(500).json({ error: "Failed to update user" });
     }
@@ -35,7 +35,7 @@ export const deleteUser = async (req, res) => {
     if (!user) return res.status(404).json({ error: "User Does not Exist" });
     const deletedRowCount = await User.destroy({ where: { id } });
     if (deletedRowCount === 1) {
-      return res.status(200).json("User has been deleted.");
+      return res.status(200).json({message:"User has been deleted."});
     } else {
       return res.status(500).json({ error: "Failed to delete user" });
     }

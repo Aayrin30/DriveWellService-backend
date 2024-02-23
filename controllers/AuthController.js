@@ -12,7 +12,7 @@ export const register = async (req, res) => {
   try {
     const newUser = await User.create({ ...req.body, password: hash });
     const { password, isAdmin, ...otherDetails } = newUser.toJSON();
-    return res.status(200).json(otherDetails);
+    return res.status(200).json({otherDetails,message:"User has been Added Successfully"});
   } catch (error) {
     return res.status(500).json(error);
   }

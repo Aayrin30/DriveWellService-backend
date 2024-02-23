@@ -47,3 +47,20 @@ export const getModelsByCompanyId = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
+export const deleteModel = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const model = await Model.findByPk(id);
+
+    if (!model) return res.status(404).json({ error: "Model Does not Exist" });
+    const deletedRowCount = await Model.destroy({ where: { id } });
+    if (deletedRowCount === 1) {
+      return res.status(200).json({ message: "Model has been deleted." });
+    } else {
+      return res.status(500).json({ error: "Failed to delete Company" });
+    }
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+};

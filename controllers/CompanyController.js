@@ -30,7 +30,7 @@ export const getCompanyById = async (req, res) => {
 export const createCompany = async (req, res) => {
   try {
     const newCompany = await Company.create(req.body);
-    return res.status(201).json(newCompany);
+    return res.status(201).json({newCompany,message:"Company has been Created."});
   } catch (error) {
     console.error("Error creating company:", error);
     return res.status(500).json({ error: "Internal server error" });

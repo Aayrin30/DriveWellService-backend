@@ -5,7 +5,9 @@ export const createPrice = async (req, res) => {
   const { modelId, serviceId, price } = req.body;
   try {
     const newPrice = await Price.create({ modelId, serviceId, price });
-    return res.status(201).json(newPrice);
+    return res
+      .status(201)
+      .json({ newPrice, message: "Price has been Created" });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -21,23 +23,42 @@ export const getAllPrices = async (req, res) => {
   }
 };
 
-export const getPricesByModelIdAndServices = async (req, res) => {
-  const modelId = req.params.modelId;
-  const selectedServices = req.body.services; // Assuming req.body.services is an array of selected service IDs from checkboxes
+export const getPricesByModelIdAndServices = async ({
+  modelId,
+  selectedServices,
+}) => {
   try {
     // Fetch prices based on modelId and include associated services
     const prices = await Price.findAll({
       where: { modelId },
-      include: [Service],
     });
-    console.log("prices", prices);
     // Filter prices based on selected services
     const filteredPrices = prices.filter((price) =>
       selectedServices.includes(price.serviceId)
     );
-
-    return res.status(200).json(filteredPrices);
+    const totalPrice = filteredPrices.reduce(
+      (total, price) => total + parseFloat(price.price),
+      0
+    );
+    return totalPrice;
   } catch (error) {
     return res.status(500).json({ message: error.message });
+  }
+};
+
+export const deletePrice = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const price = await Price.findByPk(id);
+
+    if (!price) return res.status(404).json({ error: "Price Does not Exist" });
+    const deletedRowCount = await Price.destroy({ where: { id } });
+    if (deletedRowCount === 1) {
+      return res.status(200).json({ message: "Price has been deleted." });
+    } else {
+      return res.status(500).json({ error: "Failed to delete Company" });
+    }
+  } catch (err) {
+    return res.status(500).json(err);
   }
 };

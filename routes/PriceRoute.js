@@ -1,17 +1,13 @@
 import express from "express";
-import {
-  createPrice,
-  getAllPrices,
-  getPricesByModelIdAndServices,
-} from "../controllers/PriceController.js";
+import { createPrice, deletePrice, getAllPrices } from "../controllers/PriceController.js";
 
 const router = express.Router();
 
 //POST
 router.post("/", createPrice);
 
-//GET BY ModelID and Services
-router.get("/:id", getPricesByModelIdAndServices);
+//DELETE
+router.delete("/:id", deletePrice);
 
 //GET ALL
 router.get("/", getAllPrices);
