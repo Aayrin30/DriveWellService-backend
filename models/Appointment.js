@@ -69,7 +69,7 @@ const Appointment = sequelize.define("Appointment", {
     type: DataTypes.DECIMAL(9, 2),
     defaultValue: 0,
   },
-  completed: {
+  status: {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
   },

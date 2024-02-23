@@ -56,3 +56,17 @@ export const getAllAppointment = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+export const getAppointmentByUserId = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const appointment = await Appointment.findAll({ where: { userId: id } });
+    if (appointment) {
+      return res.status(200).json(appointment);
+    } else {
+      return res.status(404).json({ error: "Company not found" });
+    }
+  } catch (error) {
+    console.error("Error fetching company by ID:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};

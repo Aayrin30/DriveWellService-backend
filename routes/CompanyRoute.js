@@ -1,5 +1,5 @@
 import express from 'express'
-import { createCompany, getAllCompanies, getCompanyById } from '../controllers/CompanyController.js';
+import { createCompany, deleteCompany, getAllCompanies, getCompanyById } from '../controllers/CompanyController.js';
 
 const router=express.Router();
 
@@ -11,6 +11,9 @@ router.get("/:id",getCompanyById);
 
 //GET ALL
 router.get("/",getAllCompanies);
+
+//DELETE Company
+router.delete("/:id",deleteCompany);
 
 
 export default router;
