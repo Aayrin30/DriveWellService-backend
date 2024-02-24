@@ -3,27 +3,26 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Car Service Appointment Confirmation</title>
+    <title>Car Service Completed</title>
   </head>
   <body>
-    <h1>Car Service Appointment Confirmation</h1>
+    <h1>Car Service Completed</h1>
     <p>Hello <%= customerName %>,</p>
     <p>
-      Your appointment for car service has been confirmed. Below are the
-      details:
+      Your car service has been completed. Below are the details:
     </p>
     <ul>
-      <li><strong>Date:</strong> <%= appointmentDate %></li>
-      <li><strong>Time:</strong> <%= appointmentTime %></li>
-      <li><strong>Service Type:</strong> <%= serviceType %></li>
+      <li><strong>Vehicle Number:</strong> <%= vehicleNumber %></li>
       <li><strong>Car Model:</strong> <%= carModel %></li>
+      <li><strong>Service Type:</strong> <%= serviceType %></li>
+      <li><strong>Total Amount:</strong> <%= Amount %></li>
       <% if(additionalNotes !== ""){ %>
       <li><strong>Additional Notes:</strong> <%= additionalNotes %></li>
       <% } %>
     </ul>
     <p>
-      Thank you for choosing our service. If you have any questions or need to
-      reschedule, please contact us.
+      Thank you for choosing our service. Your car will be ready for pickup
+      in 1 to 2 business days. If you have any questions, please contact us.
     </p>
     <p>Best regards,<br />Car Service Team</p>
   </body>

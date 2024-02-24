@@ -16,8 +16,19 @@ export async function sendAppointmentConfirmationEmail(
   appointmentDetails
 ) {
   try {
-    const emailTemplate = fs.readFileSync("./utils/email_template.ejs", "utf-8");
-
+    console.log("appointmentDetails", appointmentDetails);
+    let emailTemplate;
+    if (appointmentDetails.status) {
+      emailTemplate = fs.readFileSync(
+        "./utils/final_email_template.ejs",
+        "utf-8"
+      );
+    } else {
+      emailTemplate = fs.readFileSync(
+        "./utils/confirm_email_template.ejs",
+        "utf-8"
+      );
+    }
     const compiledTemplate = ejs.compile(emailTemplate);
 
     const emailBody = compiledTemplate(appointmentDetails);
@@ -34,4 +45,3 @@ export async function sendAppointmentConfirmationEmail(
     console.error("Error sending email:", error);
   }
 }
-

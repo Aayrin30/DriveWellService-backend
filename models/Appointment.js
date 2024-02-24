@@ -25,7 +25,7 @@ const Appointment = sequelize.define("Appointment", {
   },
   services: {
     type: DataTypes.TEXT,
-    allowNull: true,
+    allowNull: false,
     get() {
       const value = this.getDataValue("services");
       return value ? JSON.parse(value) : [];
