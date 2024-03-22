@@ -23,15 +23,12 @@ export const getAllPrices = async (req, res) => {
   }
 };
 
-export const getPricesByModelIdAndServices = async ({
-  modelId,
-  selectedServices,
-}) => {
+export const getPricesByModelIdAndServices = async (req, res) => {
+  const { modelId } = req.params;
+  const { selectedServices } = req.query;
   try {
     // Fetch prices based on modelId and include associated services
-    const prices = await Price.findAll({
-      where: { modelId },
-    });
+    const prices = await Price.findAll({ where: { modelId } });
     // Filter prices based on selected services
     const filteredPrices = prices.filter((price) =>
       selectedServices.includes(price.serviceId)
@@ -40,7 +37,8 @@ export const getPricesByModelIdAndServices = async ({
       (total, price) => total + parseFloat(price.price),
       0
     );
-    return totalPrice;
+    console.log(totalPrice);
+    return res.status(200).json(totalPrice);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

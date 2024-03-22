@@ -5,20 +5,14 @@ import {
   createAppointmentFormatData,
   updateAppointmentFormatData,
 } from "../utils/formatData.js";
-import { getPricesByModelIdAndServices } from "./PriceController.js";
 
 export const createAppointment = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array()[0].msg });
   }
-  const totalPrice = await getPricesByModelIdAndServices({
-    modelId: req.body.modelSelect,
-    selectedServices: req.body.services,
-  });
-
   try {
-    const appointment = await Appointment.create({ ...req.body, totalPrice });
+    const appointment = await Appointment.create(req.body);
     if (!appointment) {
       throw new Error("Failed to create appointment");
     }
@@ -87,7 +81,7 @@ export const deleteAppointment = async (req, res) => {
     const appointment = await Appointment.findByPk(id);
 
     if (!appointment)
-      return res.status(404).json({ error: "Company Does not Exist" });
+      return res.status(404).json({ error: "Appointment Does not Exist" });
     const appointmentRowCount = await Appointment.destroy({ where: { id } });
     if (appointmentRowCount === 1) {
       return res.status(200).json({ message: "Appointment has been deleted." });

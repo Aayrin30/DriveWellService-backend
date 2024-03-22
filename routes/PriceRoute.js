@@ -1,5 +1,10 @@
 import express from "express";
-import { createPrice, deletePrice, getAllPrices } from "../controllers/PriceController.js";
+import {
+  createPrice,
+  deletePrice,
+  getAllPrices,
+  getPricesByModelIdAndServices,
+} from "../controllers/PriceController.js";
 
 const router = express.Router();
 
@@ -8,6 +13,9 @@ router.post("/", createPrice);
 
 //DELETE
 router.delete("/:id", deletePrice);
+
+//Get Total Price based on Model and Service
+router.get("/:modelId", getPricesByModelIdAndServices);
 
 //GET ALL
 router.get("/", getAllPrices);

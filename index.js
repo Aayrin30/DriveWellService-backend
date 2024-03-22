@@ -25,7 +25,7 @@ const initApp = async () => {
     Model.sync();
     Service.sync();
     Price.sync();
-    Appointment.sync({alter:true});
+    Appointment.sync();
 
     app.use(express.json());
     app.use(cookieParser());
