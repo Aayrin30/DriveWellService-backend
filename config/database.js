@@ -6,7 +6,6 @@ import { Sequelize } from "sequelize";
 import dotenv from "dotenv";
 
 dotenv.config();
-
 /**
  * Create a Sequelize instance. This can be done by passing
  * the connection parameters separately to the Sequelize constructor.
